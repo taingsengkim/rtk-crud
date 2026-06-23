@@ -1,28 +1,61 @@
-"use client"
+"use client";
 
-import { ColumnDef } from "@tanstack/react-table"
-import {MoreHorizontal } from "lucide-react"
-import Image from "next/image"
-import { Button } from "../ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
-import { DataTableColumnHeader } from "../ui/data-table-column-header"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu"
-
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import Image from "next/image";
+import { Button } from "../ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { DataTableColumnHeader } from "../ui/data-table-column-header";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import { useDeleteProductMutation } from "@/services/ecommerce";
+import { uuid } from "zod";
 
 // This type is used to define the shape of our data.
 
 export type ProductHeader = {
-  uuid: string
-  name: string
-  thumbnail: string
-  priceOut: number
-}
+  uuid: string;
+  name: string;
+  thumbnail: string;
+  priceOut: number;
+};
+export type UpdateProductType = {
+  name: string;
+  description: string;
+  stockQuantity: number;
+  priceIn: number;
+  priceOut: number;
+  discount: number;
+  color: {
+    color: string;
+    images: string[];
+  }[];
+  thumbnail: string;
+  warranty: string;
+  availability: boolean;
+  images: string[];
+  categoryUuid: string;
+  supplierUuid: string;
+  brandUuid: string;
+};
 
 type ColumnsProps = {
-  onViewDetail: (uuid:string) => void;
-}
+  onViewDetail: (uuid: string) => void;
+  onDelete: (uuid: string) => void;
+  onUpdate: (uuid: string, row: ProductHeader) => void;
+};
 
-export const columns=({onViewDetail}:ColumnsProps): ColumnDef<ProductHeader>[] => [
+export const columns = ({
+  onViewDetail,
+  onDelete,
+  onUpdate,
+}: ColumnsProps): ColumnDef<ProductHeader>[] => [
   {
     id: "select",
     header: ({ table }) => (
@@ -52,41 +85,44 @@ export const columns=({onViewDetail}:ColumnsProps): ColumnDef<ProductHeader>[] =
   {
     accessorKey: "name",
     header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Name" />
-      )
+      return <DataTableColumnHeader column={column} title="Name" />;
     },
   },
   {
     accessorKey: "thumbnail",
     header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Thumbnail" />
-      )
+      return <DataTableColumnHeader column={column} title="Thumbnail" />;
     },
     cell: ({ getValue }) => {
       const url = getValue();
-      return <Image
-        loading="eager"
-        height={75}
-        width={75}
-        src={url as string}
-        alt="getValue"
-      />
-    }
+
+      const safeUrl =
+        typeof url === "string" && url.startsWith("http")
+          ? url
+          : "/placeholder.png";
+
+      return (
+        <Image
+          src={safeUrl}
+          loading="eager"
+          height={75}
+          width={75}
+          alt="product image"
+        />
+      );
+    },
   },
   {
     accessorKey: "priceOut",
     header: ({ column }) => {
-      return (
-        <DataTableColumnHeader column={column} title="Price$" />
-      )
+      return <DataTableColumnHeader column={column} title="Price$" />;
     },
-     cell: ({ getValue }) => {
+    cell: ({ getValue }) => {
       const price = getValue();
-      return <h1 className="text-red-500 font-bold">{price as number}$</h1>
-    }
-  }, {
+      return <h1 className="text-red-500 font-bold">{price as number}$</h1>;
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const product = row.original;
@@ -111,12 +147,15 @@ export const columns=({onViewDetail}:ColumnsProps): ColumnDef<ProductHeader>[] =
               View Product Detail
             </DropdownMenuItem>
             {/* The students will implements these 2 functions */}
-            <DropdownMenuItem>Update Product</DropdownMenuItem>
-            <DropdownMenuItem>Delete Product</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onUpdate(product.uuid, product)}>
+              Update Product
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onDelete(product.uuid)}>
+              Delete Product
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-
-]
+];

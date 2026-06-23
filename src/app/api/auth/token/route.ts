@@ -24,3 +24,22 @@ export async function POST(req: Request) {
 
   return Response.json(data);
 }
+
+export async function DELETE(req: Request) {
+  const { searchParams } = new URL(req.url);
+  const uuid = searchParams.get("uuid");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_ISHOP_BASE_URL}/products/${uuid}`,
+    {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_ACCESS_TOKEN}`,
+      },
+    }
+  );
+
+  const data = await response.json();
+
+  return Response.json(data);
+}
