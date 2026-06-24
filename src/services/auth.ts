@@ -34,7 +34,7 @@ export const authApi = createApi({
         }),
          registerUser : builder.mutation<UserRegisterType,UserRegisterType>({
             query:(payload)=>({
-                url: `/auth/register`,
+                url: `/users/user-signup`,
                 method:"POST",      
                 body:payload
             })
