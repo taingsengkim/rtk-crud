@@ -60,13 +60,9 @@ export default function DataTablePage() {
   const handleDelete = async (uuid: string) => {
     try {
       await deleteProduct(uuid).unwrap();
-      toast.success("Product deleted successfully.", {
-        position: "top-center",
-      });
+      toast.success("Product deleted successfully.");
     } catch (error: any) {
-      toast.error(error?.data?.description || "Failed to deleted product", {
-        position: "top-center",
-      });
+      toast.error(error?.data?.description || "Failed to deleted product");
     }
   };
   const handleUpdate = async (uuid: string, row: any) => {

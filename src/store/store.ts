@@ -1,6 +1,7 @@
 
 import { countSlice } from '@/features/countSlice/countSlice';
 import { ecommerceApi } from '@/services/ecommerce';
+import { authApi } from '@/services/auth';
 import {configureStore} from '@reduxjs/toolkit'
 
 // set up the store
@@ -8,11 +9,11 @@ export const makeStore = () => {
   return configureStore({
     reducer: {
       count: countSlice.reducer, 
-      [ecommerceApi.reducerPath]: ecommerceApi.reducer
+      [ecommerceApi.reducerPath]: ecommerceApi.reducer,
+      [authApi.reducerPath]: authApi.reducer
     },
     middleware: (getDefaultMiddleware) => 
-      getDefaultMiddleware().concat(ecommerceApi.middleware)
-    
+      getDefaultMiddleware().concat(ecommerceApi.middleware,authApi.middleware)
   }) 
 }
 
