@@ -4,6 +4,20 @@ export type UserLoginType ={
     email :string,
     password:string
 }
+export type UserRegisterType ={
+  username: string,
+  phoneNumber: string,
+  address: {
+    addressLine1: string,
+    addressLine2: string,
+    road: string,
+    linkAddress: string
+  },
+  email: string,
+  password: string,
+  confirmPassword: string,
+  profile: string
+}
 export const authApi = createApi({
     reducerPath:"authApi",
     baseQuery:fetchBaseQuery({
@@ -17,8 +31,15 @@ export const authApi = createApi({
                 method:"POST",      
                 body:payload
             })
+        }),
+         registerUser : builder.mutation<UserRegisterType,UserRegisterType>({
+            query:(payload)=>({
+                url: `/auth/register`,
+                method:"POST",      
+                body:payload
+            })
         })
     })
 })
 
-export const {useLoginUserMutation} = authApi;
+export const {useLoginUserMutation,useRegisterUserMutation} = authApi;
