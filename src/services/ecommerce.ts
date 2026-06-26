@@ -1,6 +1,6 @@
 import { UpdateProductType } from './../components/tables/Columns';
 
-import { CreateProductType, ProductResponse, ProductType } from '@/lib/products';
+import { CategoryType, CreateProductType, ProductResponse, ProductType, TotalBrand, TotalCategory } from '@/lib/products';
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
 
@@ -14,6 +14,16 @@ export const ecommerceApi= createApi({
      getAllProduct: builder.query<ProductResponse,{page:number,size:number}>({
       query: ({page, size}) => `/products?page=${page}&size=${size}`,
        providesTags: ["Products"]
+     }),
+     getAllCategory:builder.query<TotalCategory,void>({
+      query:()=>({
+        url:`/categories`
+      })
+     }),
+      getAllBrand:builder.query<TotalBrand,void>({
+      query:()=>({
+        url:`/brands`
+      })
      }),
     //  getProductByUUid
     getProductByUuid: builder.query<ProductType, string>({
@@ -63,6 +73,8 @@ export const ecommerceApi= createApi({
 })
 
 export const {
+  useGetAllCategoryQuery,
+  useGetAllBrandQuery,
  useGetAllProductQuery,
  useGetProductByUuidQuery, 
  useCreateProductMutation,

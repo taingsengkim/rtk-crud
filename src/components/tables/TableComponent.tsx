@@ -37,6 +37,7 @@ import {
   useUpdateProductMutation,
 } from "@/services/ecommerce";
 import { toast } from "sonner";
+import Link from "next/link";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -214,8 +215,11 @@ export function DataTable<TData, TValue>({
                 ))}
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button onClick={() => handleCreateNewProduct()}>
+          {/* <Button onClick={() => handleCreateNewProduct()}>
             Create Product
+          </Button> */}
+          <Button>
+            <Link href={"/create-product"}>Create Product</Link>
           </Button>
         </div>
 

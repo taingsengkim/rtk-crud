@@ -22,6 +22,7 @@ import {
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { useRegisterUserMutation } from "@/services/auth";
+import { FileUploadFillProgressDemo } from "./upload-file";
 
 const formSchema = z.object({
   username: z
@@ -208,6 +209,7 @@ export function RegisterForm() {
                 </Field>
               )}
             />
+            <FileUploadFillProgressDemo />
           </FieldGroup>
         </form>
       </CardContent>

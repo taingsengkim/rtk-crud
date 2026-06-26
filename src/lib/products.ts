@@ -1,3 +1,21 @@
+export type CategoryType={
+  uuid:string,
+  name:string,
+  description:string,
+  media:string
+}
+export type TotalCategory={
+  content:CategoryType[]
+}
+export type BrandType={
+  uuid:string,
+  name:string,
+  description:string,
+  brandLogo:string
+}
+export type TotalBrand={
+  content:BrandType[]
+}
 
 
 export type ProductType={
