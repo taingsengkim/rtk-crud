@@ -116,7 +116,7 @@ export function FileUploadFillProgressDemo({
         </FileUploadTrigger>
       </FileUploadDropzone>
       <FileUploadList orientation="horizontal">
-        {files.map((file, index) => (
+        {files?.map((file, index) => (
           <FileUploadItem key={index} value={file} className="p-0">
             <FileUploadItemPreview className="size-20">
               <FileUploadItemProgress variant="fill" />
