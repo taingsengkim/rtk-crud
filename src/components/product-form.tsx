@@ -30,6 +30,7 @@ import {
   useCreateProductMutation,
   useGetAllBrandQuery,
   useGetAllCategoryQuery,
+  useGetAllSupplierQuery,
 } from "@/services/ecommerce";
 import { FileUploadFillProgressDemo } from "./upload-file";
 import { useUploadFilesMutation } from "@/services/upload";
@@ -107,6 +108,7 @@ export default function ProductForm() {
     },
   });
   const { data: categories } = useGetAllCategoryQuery();
+  const { data: suppliers } = useGetAllSupplierQuery();
   const { data: brands } = useGetAllBrandQuery();
   const [pendingFiles, setPendingFiles] = useState<File[]>([]);
   const [uploadFile] = useUploadFilesMutation();
@@ -120,9 +122,11 @@ export default function ProductForm() {
       const uploadedUrls = await Promise.all(
         pendingFiles.map(async (file) => {
           const result = await uploadFile(file).unwrap();
-          return result.name;
+          console.log(result);
+          return result?.location;
         }),
       );
+      console.log(uploadedUrls);
       const payload = {
         ...values,
         images: uploadedUrls,
@@ -130,6 +134,10 @@ export default function ProductForm() {
       };
       console.log(payload);
       await createProduct(payload).unwrap();
+      setPendingFiles([]);
+
+      toast.success("Product Created Successfully!");
+      onReset();
     } catch (error) {
       console.error("Failed to create product:", error);
       toast.error("Something went wrong while creating the product.");
@@ -320,6 +328,40 @@ export default function ProductForm() {
                     </SelectTrigger>
                     <SelectContent>
                       {categories?.content.map((d) => (
+                        <SelectItem key={d.uuid} value={d.uuid}>
+                          {d.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  {fieldState.invalid && (
+                    <FieldError errors={[fieldState.error]} />
+                  )}
+                </Field>
+              )}
+            />
+            <Controller
+              control={form.control}
+              name="supplierUuid"
+              render={({ field, fieldState }) => (
+                <Field
+                  className="col-span-12 col-start-auto flex self-end flex-col gap-2 space-y-0 items-start"
+                  data-invalid={fieldState.invalid}
+                >
+                  <FieldLabel className="flex w-auto!">Supplier</FieldLabel>
+
+                  <Select
+                    key="supplierUuid"
+                    value={field.value}
+                    name={field.name}
+                    onValueChange={field.onChange}
+                  >
+                    <SelectTrigger className="w-full ">
+                      <SelectValue placeholder="Choose Supplier" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {suppliers?.content.map((d) => (
                         <SelectItem key={d.uuid} value={d.uuid}>
                           {d.name}
                         </SelectItem>

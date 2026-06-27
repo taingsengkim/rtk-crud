@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export interface UploadResponse {
   name: string;
+  location:string;
 }
 
 export const uploadApiFile = createApi({

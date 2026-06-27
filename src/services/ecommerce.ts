@@ -25,6 +25,11 @@ export const ecommerceApi= createApi({
         url:`/brands`
       })
      }),
+      getAllSupplier:builder.query<TotalBrand,void>({
+      query:()=>({
+        url:`/suppliers`
+      })
+     }),
     //  getProductByUUid
     getProductByUuid: builder.query<ProductType, string>({
       query: (uuid: string) => ({
@@ -74,6 +79,7 @@ export const ecommerceApi= createApi({
 
 export const {
   useGetAllCategoryQuery,
+  useGetAllSupplierQuery,
   useGetAllBrandQuery,
  useGetAllProductQuery,
  useGetProductByUuidQuery, 
