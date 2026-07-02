@@ -15,9 +15,7 @@ export const countSlice = createSlice({
          state.value += 1;
       },
       decrement: (state) => {
-        //  const decrementValue = action.payload; 
-        //  update state when incrementValue has action/get action from payload
-         state.value -= 1;
+        state.value -= 1;
       },
       resetValue: (state) => {
          state.value = 0;

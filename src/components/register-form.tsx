@@ -209,7 +209,7 @@ export function RegisterForm() {
                 </Field>
               )}
             />
-            <FileUploadFillProgressDemo />
+            {/* <FileUploadFillProgressDemo /> */}
           </FieldGroup>
         </form>
       </CardContent>

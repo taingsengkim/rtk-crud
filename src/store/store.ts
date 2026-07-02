@@ -5,7 +5,7 @@ import { authApi } from '@/services/auth';
 import {configureStore} from '@reduxjs/toolkit'
 import { uploadApiFile } from '@/services/upload';
 
-// set up the store
+// set up the store 
 export const makeStore = () => {
   return configureStore({
     reducer: {
@@ -18,7 +18,6 @@ export const makeStore = () => {
       getDefaultMiddleware().concat(ecommerceApi.middleware,authApi.middleware,uploadApiFile.middleware)
   }) 
 }
-
 // Infer the type of makeStore
 export type AppStore = ReturnType<typeof makeStore>
 // Infer the `RootState` and `AppDispatch` types from the store itself
